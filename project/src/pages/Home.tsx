@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { MessageSquare, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 interface Post {
   id: string;
@@ -13,6 +13,11 @@ interface Post {
     username: string;
     avatar_url: string;
   };
+  likes: {
+    id: string;
+    user_id: string;
+  }[];
+  likes_count: number;
 }
 
 export default function Home() {
@@ -55,17 +60,62 @@ export default function Home() {
           profiles (
             username,
             avatar_url
+          ),
+          likes (
+            id,
+            user_id
           )
         `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setPosts(data || []);
+
+      const postsWithLikesCount = data?.map(post => ({
+        ...post,
+        likes_count: post.likes?.length || 0
+      })) || [];
+
+      setPosts(postsWithLikesCount);
     } catch (error) {
       console.error('Error fetching posts:', error);
       setError('Impossible de charger les posts.');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleLike(postId: string) {
+    if (!user) return;
+
+    try {
+      const isLiked = posts.find(p => p.id === postId)?.likes.some(like => like.user_id === user.id);
+
+      if (isLiked) {
+        // Unlike
+        const { error } = await supabase
+          .from('likes')
+          .delete()
+          .eq('post_id', postId)
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+      } else {
+        // Like
+        const { error } = await supabase
+          .from('likes')
+          .insert([
+            {
+              post_id: postId,
+              user_id: user.id
+            }
+          ]);
+
+        if (error) throw error;
+      }
+
+      await fetchPosts();
+    } catch (error) {
+      console.error('Error toggling like:', error);
     }
   }
 
@@ -148,44 +198,51 @@ export default function Home() {
       </form>
 
       <div className="space-y-10">
-        {posts.map((post) => (
-          <article key={post.id} className="bg-white rounded-2xl shadow-lg p-10 hover:shadow-xl transition-shadow">
-            <div className="flex items-center space-x-6 mb-8">
-              {post.profiles.avatar_url ? (
-                <img
-                  src={post.profiles.avatar_url}
-                  alt={post.profiles.username}
-                  className="w-20 h-20 rounded-full object-cover border-2 border-gray-100"
-                />
-              ) : (
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
-                  {post.profiles.username.charAt(0).toUpperCase()}
+        {posts.map((post) => {
+          const isLiked = user && post.likes.some(like => like.user_id === user.id);
+
+          return (
+            <article key={post.id} className="bg-white rounded-2xl shadow-lg p-10 hover:shadow-xl transition-shadow">
+              <div className="flex items-center space-x-6 mb-8">
+                {post.profiles.avatar_url ? (
+                  <img
+                    src={post.profiles.avatar_url}
+                    alt={post.profiles.username}
+                    className="w-20 h-20 rounded-full object-cover border-2 border-gray-100"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
+                    {post.profiles.username.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div>
+                  <h3 className="font-bold text-2xl text-gray-900">
+                    {post.profiles.username}
+                  </h3>
+                  <p className="text-base text-gray-500">
+                    {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: fr })}
+                  </p>
                 </div>
-              )}
-              <div>
-                <h3 className="font-bold text-2xl text-gray-900">
-                  {post.profiles.username}
-                </h3>
-                <p className="text-base text-gray-500">
-                  {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: fr })}
-                </p>
               </div>
-            </div>
-            <div className="text-gray-800 text-2xl leading-relaxed whitespace-pre-wrap">
-              {post.content}
-            </div>
-            <div className="mt-10 flex items-center space-x-10 text-gray-500">
-              <button className="flex items-center space-x-3 hover:text-blue-500 transition-colors">
-                <MessageSquare size={28} />
-                <span className="text-xl">Commenter</span>
-              </button>
-              <button className="flex items-center space-x-3 hover:text-red-500 transition-colors">
-                <Heart size={28} />
-                <span className="text-xl">J'aime</span>
-              </button>
-            </div>
-          </article>
-        ))}
+              <div className="text-gray-800 text-2xl leading-relaxed whitespace-pre-wrap">
+                {post.content}
+              </div>
+              <div className="mt-10 flex items-center text-gray-500">
+                <button 
+                  onClick={() => handleLike(post.id)}
+                  className={`flex items-center space-x-3 transition-colors ${
+                    isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'
+                  }`}
+                >
+                  <Heart size={28} fill={isLiked ? 'currentColor' : 'none'} />
+                  <span className="text-xl">
+                    {post.likes_count} {post.likes_count > 1 ? 'J\'aime' : 'J\'aime'}
+                  </span>
+                </button>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </div>
   );
