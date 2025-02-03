@@ -3,12 +3,13 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { Heart } from 'lucide-react';
+import { Heart, Trash2, Pencil, X, Check } from 'lucide-react';
 
 interface Post {
   id: string;
   content: string;
   created_at: string;
+  user_id: string;
   profiles: {
     username: string;
     avatar_url: string;
@@ -28,6 +29,9 @@ export default function Home() {
   const [publishing, setPublishing] = useState(false);
   const [error, setError] = useState('');
   const [hasProfile, setHasProfile] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const [editingPost, setEditingPost] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
 
   useEffect(() => {
     checkProfile();
@@ -57,6 +61,7 @@ export default function Home() {
           id,
           content,
           created_at,
+          user_id,
           profiles (
             username,
             avatar_url
@@ -81,6 +86,67 @@ export default function Home() {
       setError('Impossible de charger les posts.');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleDeletePost(postId: string) {
+    if (!user || deleting) return;
+
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce post ?')) {
+      return;
+    }
+
+    try {
+      setDeleting(postId);
+      const { error } = await supabase
+        .from('posts')
+        .delete()
+        .eq('id', postId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setPosts(posts.filter(post => post.id !== postId));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Impossible de supprimer le post. Veuillez réessayer.');
+    } finally {
+      setDeleting(null);
+    }
+  }
+
+  function startEditing(post: Post) {
+    setEditingPost(post.id);
+    setEditContent(post.content);
+  }
+
+  function cancelEditing() {
+    setEditingPost(null);
+    setEditContent('');
+  }
+
+  async function handleUpdatePost(postId: string) {
+    if (!user || !editContent.trim()) return;
+
+    try {
+      const { error } = await supabase
+        .from('posts')
+        .update({ content: editContent.trim() })
+        .eq('id', postId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setPosts(posts.map(post => 
+        post.id === postId 
+          ? { ...post, content: editContent.trim() }
+          : post
+      ));
+      setEditingPost(null);
+      setEditContent('');
+    } catch (error) {
+      console.error('Error updating post:', error);
+      alert('Impossible de modifier le post. Veuillez réessayer.');
     }
   }
 
@@ -200,33 +266,88 @@ export default function Home() {
       <div className="space-y-10">
         {posts.map((post) => {
           const isLiked = user && post.likes.some(like => like.user_id === user.id);
+          const isOwnPost = user && post.user_id === user.id;
+          const isEditing = post.id === editingPost;
 
           return (
             <article key={post.id} className="bg-white rounded-2xl shadow-lg p-10 hover:shadow-xl transition-shadow">
-              <div className="flex items-center space-x-6 mb-8">
-                {post.profiles.avatar_url ? (
-                  <img
-                    src={post.profiles.avatar_url}
-                    alt={post.profiles.username}
-                    className="w-20 h-20 rounded-full object-cover border-2 border-gray-100"
-                  />
-                ) : (
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
-                    {post.profiles.username.charAt(0).toUpperCase()}
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-6">
+                  {post.profiles.avatar_url ? (
+                    <img
+                      src={post.profiles.avatar_url}
+                      alt={post.profiles.username}
+                      className="w-20 h-20 rounded-full object-cover border-2 border-gray-100"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
+                      {post.profiles.username.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="font-bold text-2xl text-gray-900">
+                      {post.profiles.username}
+                    </h3>
+                    <p className="text-base text-gray-500">
+                      {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: fr })}
+                    </p>
+                  </div>
+                </div>
+                {isOwnPost && (
+                  <div className="flex items-center space-x-4">
+                    {!isEditing && (
+                      <>
+                        <button
+                          onClick={() => startEditing(post)}
+                          className="text-gray-400 hover:text-blue-500 transition-colors"
+                          title="Modifier le post"
+                        >
+                          <Pencil size={24} />
+                        </button>
+                        <button
+                          onClick={() => handleDeletePost(post.id)}
+                          disabled={deleting === post.id}
+                          className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50"
+                          title="Supprimer le post"
+                        >
+                          <Trash2 size={24} />
+                        </button>
+                      </>
+                    )}
                   </div>
                 )}
-                <div>
-                  <h3 className="font-bold text-2xl text-gray-900">
-                    {post.profiles.username}
-                  </h3>
-                  <p className="text-base text-gray-500">
-                    {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: fr })}
-                  </p>
+              </div>
+              {isEditing ? (
+                <div className="space-y-4">
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    className="w-full p-4 border rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[120px] text-xl"
+                    rows={4}
+                  />
+                  <div className="flex justify-end space-x-4">
+                    <button
+                      onClick={cancelEditing}
+                      className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors flex items-center space-x-2"
+                    >
+                      <X size={20} />
+                      <span>Annuler</span>
+                    </button>
+                    <button
+                      onClick={() => handleUpdatePost(post.id)}
+                      disabled={!editContent.trim()}
+                      className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 flex items-center space-x-2"
+                    >
+                      <Check size={20} />
+                      <span>Enregistrer</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="text-gray-800 text-2xl leading-relaxed whitespace-pre-wrap">
-                {post.content}
-              </div>
+              ) : (
+                <div className="text-gray-800 text-2xl leading-relaxed whitespace-pre-wrap">
+                  {post.content}
+                </div>
+              )}
               <div className="mt-10 flex items-center text-gray-500">
                 <button 
                   onClick={() => handleLike(post.id)}
