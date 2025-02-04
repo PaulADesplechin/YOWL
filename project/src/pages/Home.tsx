@@ -21,6 +21,28 @@ interface Post {
   likes_count: number;
 }
 
+function renderContentWithLinks(content: string) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = content.split(urlRegex);
+
+  return parts.map((part, index) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:text-blue-600 hover:underline"
+        >
+          {part}
+        </a>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
 export default function Home() {
   const { user } = useAuth();
   const [content, setContent] = useState('');
@@ -32,21 +54,29 @@ export default function Home() {
   const [deleting, setDeleting] = useState<string | null>(null);
   const [editingPost, setEditingPost] = useState<string | null>(null);
   const [editContent, setEditContent] = useState('');
+  const [retryCount, setRetryCount] = useState(0);
+  const MAX_RETRIES = 3;
+  const RETRY_DELAY = 1000;
 
   useEffect(() => {
-    checkProfile();
-    fetchPosts();
-  }, []);
+    if (user) {
+      checkProfile();
+      fetchPosts();
+    }
+  }, [user]);
 
   async function checkProfile() {
+    if (!user) return;
+
     try {
       const { data, error } = await supabase
         .from('profiles')
         .select('id')
-        .eq('id', user?.id)
+        .eq('id', user.id)
         .single();
 
-      setHasProfile(!!data && !error);
+      if (error) throw error;
+      setHasProfile(!!data);
     } catch (error) {
       console.error('Error checking profile:', error);
       setHasProfile(false);
@@ -73,7 +103,16 @@ export default function Home() {
         `)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        if (retryCount < MAX_RETRIES) {
+          setRetryCount(prev => prev + 1);
+          setTimeout(() => {
+            fetchPosts();
+          }, RETRY_DELAY * (retryCount + 1));
+          return;
+        }
+        throw error;
+      }
 
       const postsWithLikesCount = data?.map(post => ({
         ...post,
@@ -81,9 +120,11 @@ export default function Home() {
       })) || [];
 
       setPosts(postsWithLikesCount);
+      setError('');
+      setRetryCount(0);
     } catch (error) {
       console.error('Error fetching posts:', error);
-      setError('Impossible de charger les posts.');
+      setError('Impossible de charger les posts. Veuillez rafraîchir la page.');
     } finally {
       setLoading(false);
     }
@@ -157,7 +198,6 @@ export default function Home() {
       const isLiked = posts.find(p => p.id === postId)?.likes.some(like => like.user_id === user.id);
 
       if (isLiked) {
-        // Unlike
         const { error } = await supabase
           .from('likes')
           .delete()
@@ -166,7 +206,6 @@ export default function Home() {
 
         if (error) throw error;
       } else {
-        // Like
         const { error } = await supabase
           .from('likes')
           .insert([
@@ -345,7 +384,7 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="text-gray-800 text-2xl leading-relaxed whitespace-pre-wrap">
-                  {post.content}
+                  {renderContentWithLinks(post.content)}
                 </div>
               )}
               <div className="mt-10 flex items-center text-gray-500">
