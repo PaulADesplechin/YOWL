@@ -57,11 +57,7 @@ export default function Home() {
   const [retryCount, setRetryCount] = useState(0);
   const MAX_RETRIES = 3;
   const RETRY_DELAY = 1000;
-
-
-  const [darkMode] = useState(() =>
-    localStorage.getItem('theme') === 'dark'
-  );
+  const [darkMode] = useState(() => localStorage.getItem('theme') === 'dark');
 
   useEffect(() => {
     if (darkMode) {
@@ -274,24 +270,24 @@ export default function Home() {
     }
   }
 
-  if (loading) {
+if(loading) {
     return (
       <div className="flex justify-center items-center min-h-[50vh]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
     );
-  }
+}
 
   return (
     <div className="w-full max-w-[90%] mx-auto">
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-10 mb-10">
+      <form onSubmit={handleSubmit} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-10 mb-10`}>
         {error && (
-          <div className="mb-6 p-6 bg-red-50 text-red-700 rounded-xl text-lg">
+          <div className="mb-6 p-6 bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded-xl text-lg">
             {error}
           </div>
         )}
         {!hasProfile && (
-          <div className="mb-6 p-6 bg-yellow-50 text-yellow-700 rounded-xl text-lg">
+          <div className="mb-6 p-6 bg-yellow-50 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-200 rounded-xl text-lg">
             Pour pouvoir publier, vous devez d'abord <a href="/profile" className="underline font-medium">compléter votre profil</a>.
           </div>
         )}
@@ -300,10 +296,11 @@ export default function Home() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Quoi de neuf ?"
-            className="w-full p-8 border rounded-2xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[200px] text-2xl"
+            className={`w-full p-8 border rounded-2xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[200px] text-2xl
+              ${darkMode ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-gray-900 border-gray-200'}`}
             rows={5}
           />
-          <div className="absolute bottom-6 right-6 text-gray-400 text-base">
+          <div className={`absolute bottom-6 right-6 ${darkMode ? 'text-gray-400' : 'text-gray-500'} text-base`}>
             {280 - content.length} caractères restants
           </div>
         </div>
@@ -325,14 +322,17 @@ export default function Home() {
           const isEditing = post.id === editingPost;
 
           return (
-            <article key={post.id} className="bg-white rounded-2xl shadow-lg p-10 hover:shadow-xl transition-shadow">
+            <article
+              key={post.id}
+              className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-10 hover:shadow-xl transition-shadow`}
+            >
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-6">
                   {post.profiles.avatar_url ? (
                     <img
                       src={post.profiles.avatar_url}
                       alt={post.profiles.username}
-                      className="w-20 h-20 rounded-full object-cover border-2 border-gray-100"
+                      className="w-20 h-20 rounded-full object-cover border-2 border-gray-100 dark:border-gray-700"
                     />
                   ) : (
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
@@ -340,10 +340,10 @@ export default function Home() {
                     </div>
                   )}
                   <div>
-                    <h3 className="font-bold text-2xl text-gray-900">
+                    <h3 className={`font-bold text-2xl ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {post.profiles.username}
                     </h3>
-                    <p className="text-base text-gray-500">
+                    <p className={`text-base ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                       {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: fr })}
                     </p>
                   </div>
@@ -354,7 +354,7 @@ export default function Home() {
                       <>
                         <button
                           onClick={() => startEditing(post)}
-                          className="text-gray-400 hover:text-blue-500 transition-colors"
+                          className={`${darkMode ? 'text-gray-400 hover:text-blue-400' : 'text-gray-400 hover:text-blue-500'} transition-colors`}
                           title="Modifier le post"
                         >
                           <Pencil size={24} />
@@ -362,7 +362,7 @@ export default function Home() {
                         <button
                           onClick={() => handleDeletePost(post.id)}
                           disabled={deleting === post.id}
-                          className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50"
+                          className={`${darkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-400 hover:text-red-500'} transition-colors disabled:opacity-50`}
                           title="Supprimer le post"
                         >
                           <Trash2 size={24} />
@@ -377,13 +377,14 @@ export default function Home() {
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    className="w-full p-4 border rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[120px] text-xl"
+                    className={`w-full p-4 border rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[120px] text-xl
+                      ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white text-gray-900 border-gray-200'}`}
                     rows={4}
                   />
                   <div className="flex justify-end space-x-4">
                     <button
                       onClick={cancelEditing}
-                      className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors flex items-center space-x-2"
+                      className={`px-6 py-2 ${darkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-600 hover:text-gray-800'} transition-colors flex items-center space-x-2`}
                     >
                       <X size={20} />
                       <span>Annuler</span>
@@ -399,7 +400,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : (
-                <div className="text-gray-800 text-2xl leading-relaxed whitespace-pre-wrap">
+                <div className={`${darkMode ? 'text-gray-100' : 'text-gray-800'} text-2xl leading-relaxed whitespace-pre-wrap`}>
                   {renderContentWithLinks(post.content)}
                 </div>
               )}
@@ -407,7 +408,7 @@ export default function Home() {
                 <button
                   onClick={() => handleLike(post.id)}
                   className={`flex items-center space-x-3 transition-colors ${
-                    isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'
+                    isLiked ? 'text-red-500' : `${darkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-500 hover:text-red-500'}`
                   }`}
                 >
                   <Heart size={28} fill={isLiked ? 'currentColor' : 'none'} />
@@ -423,3 +424,4 @@ export default function Home() {
     </div>
   );
 }
+
