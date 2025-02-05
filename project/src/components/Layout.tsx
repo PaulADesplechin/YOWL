@@ -1,6 +1,4 @@
-import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { Home, User, LogOut, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Footer from './Footer';
 import { useState, useEffect } from 'react';

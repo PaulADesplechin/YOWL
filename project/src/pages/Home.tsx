@@ -4,8 +4,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Heart, Trash2, Pencil, X, Check } from 'lucide-react';
-import { Moon, Sun } from 'lucide-react'; // Icons for dark mode toggle
-
 
 interface Post {
   id: string;
@@ -60,25 +58,6 @@ export default function Home() {
   const MAX_RETRIES = 3;
   const RETRY_DELAY = 1000;
 
-
-  const [darkMode, setDarkMode] = useState(() => 
-    localStorage.getItem('theme') === 'dark'
-  );
-  
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [darkMode]);
-  
-  function toggleDarkMode() {
-    setDarkMode(prevMode => !prevMode);
-  }
-  
 
   useEffect(() => {
     if (user) {
