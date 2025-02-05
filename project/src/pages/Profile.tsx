@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 interface Profile {
   username: string;
@@ -10,7 +11,7 @@ interface Profile {
 }
 
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 seconde
+const RETRY_DELAY = 1000; 
 
 export default function Profile() {
   const { user } = useAuth();
@@ -95,7 +96,7 @@ export default function Profile() {
     if (!e.target.files || !e.target.files[0] || !user) return;
     
     const file = e.target.files[0];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024; 
 
     if (file.size > maxSize) {
       setError('L\'image ne doit pas dépasser 5MB.');
@@ -223,6 +224,7 @@ export default function Profile() {
         </div>
 
         <div className="flex justify-end">
+          <Link to='/'>
           <button
             type="submit"
             disabled={saving}
@@ -230,6 +232,7 @@ export default function Profile() {
           >
             {saving ? 'Enregistrement...' : 'Enregistrer'}
           </button>
+          </Link>
         </div>
       </form>
     </div>
