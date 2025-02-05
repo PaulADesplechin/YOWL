@@ -59,7 +59,7 @@ export default function Home() {
   const RETRY_DELAY = 1000;
 
 
-  const [darkMode, setDarkMode] = useState(() =>
+  const [darkMode] = useState(() =>
     localStorage.getItem('theme') === 'dark'
   );
 
