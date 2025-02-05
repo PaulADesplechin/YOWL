@@ -13,6 +13,7 @@ interface CookieContextType {
   acceptAll: () => void;
   rejectAll: () => void;
   openPreferences: () => void;
+  withdrawConsent: () => void;
 }
 
 const CookieContext = createContext<CookieContextType | undefined>(undefined);
@@ -68,6 +69,14 @@ export function CookieProvider({ children }: { children: React.ReactNode }) {
     setShowPreferences(true);
   };
 
+  const withdrawConsent = () => {
+    saveConsent({
+      necessary: true,
+      analytics: false,
+      marketing: false,
+    });
+  };
+
   return (
     <CookieContext.Provider value={{
       consent,
@@ -76,6 +85,7 @@ export function CookieProvider({ children }: { children: React.ReactNode }) {
       acceptAll,
       rejectAll,
       openPreferences,
+      withdrawConsent,
     }}>
       {children}
       {showBanner && <CookieBanner />}
@@ -93,29 +103,26 @@ function CookieBanner() {
         <div className="md:flex md:items-center md:justify-between">
           <div className="flex-1 min-w-0">
             <p className="text-base text-gray-700 mb-4 md:mb-0">
-              Nous utilisons des cookies pour améliorer votre expérience. 
+              Nous utilisons des cookies pour améliorer votre expérience.
               Vous pouvez personnaliser vos préférences ou accepter l'utilisation par défaut.
             </p>
           </div>
+
           <div className="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0 md:ml-6">
             <button
               onClick={context.openPreferences}
-              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Personnaliser
-            </button>
+              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" >
+              Personnaliser </button>
+
             <button
               onClick={context.rejectAll}
-              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Refuser tout
-            </button>
+              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" >
+              Refuser tout </button>
+
             <button
               onClick={context.acceptAll}
-              className="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Accepter tout
-            </button>
+              className="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" >
+              Accepter tout </button>
           </div>
         </div>
       </div>
@@ -151,7 +158,7 @@ function CookiePreferences({ onClose }: { onClose: () => void }) {
                 type="checkbox"
                 checked={localConsent.necessary}
                 disabled
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
               />
             </div>
           </div>
@@ -167,7 +174,7 @@ function CookiePreferences({ onClose }: { onClose: () => void }) {
                 type="checkbox"
                 checked={localConsent.analytics}
                 onChange={(e) => setLocalConsent({ ...localConsent, analytics: e.target.checked })}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
               />
             </div>
           </div>
@@ -183,24 +190,17 @@ function CookiePreferences({ onClose }: { onClose: () => void }) {
                 type="checkbox"
                 checked={localConsent.marketing}
                 onChange={(e) => setLocalConsent({ ...localConsent, marketing: e.target.checked })}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
+                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" />
             </div>
           </div>
         </div>
         <div className="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Annuler
-          </button>
-          <button
-            onClick={handleSave}
-            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Enregistrer
-          </button>
+            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+          >Annuler</button>
+          <button onClick={handleSave} className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            Enregistrer </button>
         </div>
       </div>
     </div>

@@ -187,14 +187,14 @@ export default function Profile() {
               </div>
             )}
             <label className="absolute bottom-0 right-0 bg-purple-500 text-white p-2 rounded-full cursor-pointer hover:bg-purple-600 transition-colors">
-              <input
+            <input
                 type="file"
                 accept="image/*"
                 onChange={handleAvatarChange}
-                className="hidden"
-              />
-              📷
-            </label>
+                className="hidden"/>
+              <span style={{ fontSize: '1rem' }}>📷</span>
+</label>
+
           </div>
 
           <div className="flex-1">
@@ -206,9 +206,7 @@ export default function Profile() {
               value={profile.username}
               onChange={(e) => setProfile({ ...profile, username: e.target.value })}
               className={`mt-1 block w-full rounded-md shadow-sm focus:border-purple-500 focus:ring-purple-500 ${
-                darkMode 
-                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                  : 'bg-white border-gray-300 text-gray-900'
+                darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900'
               }`}
             />
           </div>
