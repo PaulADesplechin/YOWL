@@ -145,7 +145,7 @@ export default function Profile() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-2"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mb-2"></div>
         <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Chargement du profil...</p>
       </div>
     );
@@ -186,7 +186,7 @@ export default function Profile() {
                 <span className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} text-2xl`}>👤</span>
               </div>
             )}
-            <label className="absolute bottom-0 right-0 bg-blue-500 text-white p-2 rounded-full cursor-pointer hover:bg-blue-600 transition-colors">
+            <label className="absolute bottom-0 right-0 bg-purple-500 text-white p-2 rounded-full cursor-pointer hover:bg-purple-600 transition-colors">
               <input
                 type="file"
                 accept="image/*"
@@ -205,9 +205,9 @@ export default function Profile() {
               type="text"
               value={profile.username}
               onChange={(e) => setProfile({ ...profile, username: e.target.value })}
-              className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+              className={`mt-1 block w-full rounded-md shadow-sm focus:border-purple-500 focus:ring-purple-500 ${
                 darkMode 
-                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                   : 'bg-white border-gray-300 text-gray-900'
               }`}
             />
@@ -222,7 +222,7 @@ export default function Profile() {
             type="text"
             value={profile.full_name}
             onChange={(e) => setProfile({ ...profile, full_name: e.target.value })}
-            className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+            className={`mt-1 block w-full rounded-md shadow-sm focus:border-purple-500 focus:ring-purple-500 ${
               darkMode
                 ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                 : 'bg-white border-gray-300 text-gray-900'
@@ -238,7 +238,7 @@ export default function Profile() {
             value={profile.bio}
             onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
             rows={4}
-            className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+            className={`mt-1 block w-full rounded-md shadow-sm focus:border-purple-500 focus:ring-purple-500 ${
               darkMode
                 ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                 : 'bg-white border-gray-300 text-gray-900'
@@ -250,7 +250,7 @@ export default function Profile() {
           <button
             type="submit"
             disabled={saving}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+            className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50"
           >
             {saving ? 'Enregistrement...' : 'Enregistrer'}
           </button>

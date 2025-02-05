@@ -6,9 +6,9 @@ export default function Footer() {
       <div className="max-w-5xl mx-auto px-4 py-6">
         <div className="text-center text-sm text-gray-500 dark:text-gray-400">
           <div className="space-x-4">
-            <Link to="/privacy" className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300">Politique de confidentialité</Link>
+            <Link to="/privacy" className="text-purple-600 dark:text-purple-400 hover:text-purple-500 dark:hover:text-purple-300">Politique de confidentialité</Link>
             <span>•</span>
-            <Link to="/terms" className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300">Conditions d'utilisation</Link>
+            <Link to="/terms" className="text-purple-600 dark:text-purple-400 hover:text-purple-500 dark:hover:text-purple-300">Conditions d'utilisation</Link>
           </div>
         </div>
         <div className="mt-4 text-center text-xs text-gray-400 dark:text-gray-500">
