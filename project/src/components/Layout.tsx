@@ -2,36 +2,20 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { Home, User, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Footer from './Footer';
-import { useState, useEffect } from 'react';
+import { useDarkMode } from '../components/DarkModeContext';
 
 export default function Layout() {
   const { signOut } = useAuth();
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(() =>
-    localStorage.getItem('theme') === 'dark'
-  );
+  const { darkMode, toggleDarkMode } = useDarkMode(); // Use the DarkModeContext
 
   const handleSignOut = async () => {
     await signOut();
     navigate('/login');
   };
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+    <div className={`min-h-screen bg-gray-50 ${darkMode ? 'dark:bg-gray-900' : 'bg-gray-50'} flex flex-col`}>
       <nav className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">

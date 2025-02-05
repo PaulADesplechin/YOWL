@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { useDarkMode } from '../components/DarkModeContext';
 
 interface Profile {
   username: string;
@@ -14,6 +15,7 @@ const RETRY_DELAY = 1000;
 
 export default function Profile() {
   const { user } = useAuth();
+  const { darkMode } = useDarkMode();
   const [profile, setProfile] = useState<Profile>({
     username: '',
     full_name: '',
@@ -144,23 +146,25 @@ export default function Profile() {
     return (
       <div className="flex flex-col items-center justify-center p-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-2"></div>
-        <p className="text-gray-600">Chargement du profil...</p>
+        <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Chargement du profil...</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-lg shadow p-6">
-      <h1 className="text-2xl font-bold mb-6">Profil</h1>
+    <div className={`max-w-2xl mx-auto ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow p-6`}>
+      <h1 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Profil</h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {error && (
-          <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded flex items-center justify-between">
+          <div className={`${
+            darkMode ? 'bg-red-900/50 border-red-500 text-red-200' : 'bg-red-50 border-red-400 text-red-700'
+          } border px-4 py-3 rounded flex items-center justify-between`}>
             <span>{error}</span>
             <button
               type="button"
               onClick={() => setError('')}
-              className="text-red-700 hover:text-red-900"
+              className={`${darkMode ? 'text-red-200 hover:text-red-100' : 'text-red-700 hover:text-red-900'}`}
             >
               ×
             </button>
@@ -173,11 +177,13 @@ export default function Profile() {
               <img
                 src={profile.avatar_url}
                 alt="Avatar"
-                className="w-24 h-24 rounded-full object-cover"
+                className="w-24 h-24 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
               />
             ) : (
-              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500 text-2xl">👤</span>
+              <div className={`w-24 h-24 rounded-full ${
+                darkMode ? 'bg-gray-700' : 'bg-gray-200'
+              } flex items-center justify-center`}>
+                <span className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} text-2xl`}>👤</span>
               </div>
             )}
             <label className="absolute bottom-0 right-0 bg-blue-500 text-white p-2 rounded-full cursor-pointer hover:bg-blue-600 transition-colors">
@@ -192,33 +198,51 @@ export default function Profile() {
           </div>
 
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
+            <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+              Nom d'utilisateur
+            </label>
             <input
               type="text"
               value={profile.username}
               onChange={(e) => setProfile({ ...profile, username: e.target.value })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                darkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                  : 'bg-white border-gray-300 text-gray-900'
+              }`}
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Nom complet</label>
+          <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+            Nom complet
+          </label>
           <input
             type="text"
             value={profile.full_name}
             onChange={(e) => setProfile({ ...profile, full_name: e.target.value })}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+              darkMode
+                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                : 'bg-white border-gray-300 text-gray-900'
+            }`}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Bio</label>
+          <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+            Bio
+          </label>
           <textarea
             value={profile.bio}
             onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
             rows={4}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+              darkMode
+                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                : 'bg-white border-gray-300 text-gray-900'
+            }`}
           />
         </div>
 

@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Heart, Trash2, Pencil, X, Check } from 'lucide-react';
+import { useDarkMode } from '../components/DarkModeContext';
 
 interface Post {
   id: string;
@@ -57,7 +58,7 @@ export default function Home() {
   const [retryCount, setRetryCount] = useState(0);
   const MAX_RETRIES = 3;
   const RETRY_DELAY = 1000;
-  const [darkMode] = useState(() => localStorage.getItem('theme') === 'dark');
+  const { darkMode } = useDarkMode();
 
   useEffect(() => {
     if (darkMode) {
