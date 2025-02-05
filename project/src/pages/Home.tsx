@@ -278,42 +278,42 @@ if(loading) {
     );
 }
 
-  return (
-    <div className="w-full max-w-[90%] mx-auto">
-      <form onSubmit={handleSubmit} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-10 mb-10`}>
-        {error && (
-          <div className="mb-6 p-6 bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded-xl text-lg">
-            {error}
-          </div>
-        )}
-        {!hasProfile && (
-          <div className="mb-6 p-6 bg-yellow-50 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-200 rounded-xl text-lg">
-            Pour pouvoir publier, vous devez d'abord <a href="/profile" className="underline font-medium">compléter votre profil</a>.
-          </div>
-        )}
-        <div className="relative">
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Quoi de neuf ?"
-            className={`w-full p-8 border rounded-2xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[200px] text-2xl
-              ${darkMode ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-gray-900 border-gray-200'}`}
-            rows={5}
-          />
-          <div className={`absolute bottom-6 right-6 ${darkMode ? 'text-gray-400' : 'text-gray-500'} text-base`}>
-            {280 - content.length} caractères restants
-          </div>
+return (
+  <div className="w-full max-w-[90%] mx-auto">
+    <form onSubmit={handleSubmit} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-10 mb-10`}>
+      {error && (
+        <div className="mb-6 p-6 bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded-xl text-lg">
+          {error}
         </div>
-        <div className="mt-6 flex justify-end">
-          <button
-            type="submit"
-            className="px-10 py-5 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xl font-medium shadow-sm"
-            disabled={!content.trim() || publishing || !hasProfile}
-          >
-            {publishing ? 'Publication...' : 'Publier'}
-          </button>
+      )}
+      {!hasProfile && (
+        <div className="mb-6 p-6 bg-yellow-50 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-200 rounded-xl text-lg">
+          Pour pouvoir publier, vous devez d'abord <a href="/profile" className="underline font-medium">compléter votre profil</a>.
         </div>
-      </form>
+      )}
+      <div className={`relative rounded-2xl ${darkMode ? 'bg-gray-700' : 'bg-white'} overflow-hidden`}>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Quoi de neuf ?"
+          className={`w-full p-8 resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[200px] text-2xl border-0 outline-none
+            ${darkMode ? 'bg-gray-700 text-white placeholder-gray-400' : 'bg-white text-gray-900'}`}
+          rows={5}
+        />
+        <div className={`absolute bottom-6 right-6 ${darkMode ? 'text-gray-400' : 'text-gray-500'} text-base`}>
+          {280 - content.length} caractères restants
+        </div>
+      </div>
+      <div className="mt-6 flex justify-end">
+        <button
+          type="submit"
+          className="px-10 py-5 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xl font-medium shadow-sm"
+          disabled={!content.trim() || publishing || !hasProfile}
+        >
+          {publishing ? 'Publication...' : 'Publier'}
+        </button>
+      </div>
+    </form>
 
       <div className="space-y-10">
         {posts.map((post) => {
