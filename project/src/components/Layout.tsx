@@ -1,4 +1,5 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Home, User, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Footer from './Footer';
 import { useState, useEffect } from 'react';
@@ -6,7 +7,7 @@ import { useState, useEffect } from 'react';
 export default function Layout() {
   const { signOut } = useAuth();
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(() => 
+  const [darkMode, setDarkMode] = useState(() =>
     localStorage.getItem('theme') === 'dark'
   );
 
