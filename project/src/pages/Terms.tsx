@@ -1,11 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Terms() {
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-8">Conditions d'Utilisation</h1>
-      
+
       <div className="space-y-8">
         <section>
           <h2 className="text-2xl font-semibold mb-4">1. Acceptation des Conditions</h2>

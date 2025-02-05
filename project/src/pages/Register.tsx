@@ -18,17 +18,17 @@ export default function Register() {
     const birthdateDate = new Date(birthdate);
     const age = today.getFullYear() - birthdateDate.getFullYear();
     const monthDiff = today.getMonth() - birthdateDate.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdateDate.getDate())) {
       return age - 1 >= 18;
     }
-    
+
     return age >= 18;
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    
+
     if (!birthdate) {
       setError('La date de naissance est requise.');
       return;
@@ -61,7 +61,7 @@ export default function Register() {
       }
 
       const { user, error: signUpError } = await signUp(email, password);
-      
+
       if (signUpError) {
         throw signUpError;
       }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
 
 interface Profile {
   username: string;
@@ -11,7 +10,7 @@ interface Profile {
 }
 
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; 
+const RETRY_DELAY = 1000;
 
 export default function Profile() {
   const { user } = useAuth();
@@ -94,9 +93,9 @@ export default function Profile() {
 
   async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files || !e.target.files[0] || !user) return;
-    
+
     const file = e.target.files[0];
-    const maxSize = 5 * 1024 * 1024; 
+    const maxSize = 5 * 1024 * 1024;
 
     if (file.size > maxSize) {
       setError('L\'image ne doit pas dépasser 5MB.');
@@ -153,7 +152,7 @@ export default function Profile() {
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-lg shadow p-6">
       <h1 className="text-2xl font-bold mb-6">Profil</h1>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         {error && (
           <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded flex items-center justify-between">
@@ -191,7 +190,7 @@ export default function Profile() {
               📷
             </label>
           </div>
-          
+
           <div className="flex-1">
             <label className="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
             <input

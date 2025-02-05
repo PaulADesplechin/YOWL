@@ -5,7 +5,7 @@ export default function Privacy() {
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-8">Politique de Confidentialité</h1>
-      
+
       <div className="space-y-8">
         <section>
           <h2 className="text-2xl font-semibold mb-4">1. Collecte des Données</h2>

@@ -194,8 +194,8 @@ export default function Home() {
 
       if (error) throw error;
 
-      setPosts(posts.map(post => 
-        post.id === postId 
+      setPosts(posts.map(post =>
+        post.id === postId
           ? { ...post, content: editContent.trim() }
           : post
       ));
@@ -263,7 +263,7 @@ export default function Home() {
         ]);
 
       if (insertError) throw insertError;
-      
+
       setContent('');
       await fetchPosts();
     } catch (error) {
@@ -404,7 +404,7 @@ export default function Home() {
                 </div>
               )}
               <div className="mt-10 flex items-center text-gray-500">
-                <button 
+                <button
                   onClick={() => handleLike(post.id)}
                   className={`flex items-center space-x-3 transition-colors ${
                     isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'
