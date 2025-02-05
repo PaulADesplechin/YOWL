@@ -48,7 +48,6 @@ export default function Register() {
       setError('');
       setLoading(true);
 
-      // Vérifier si le nom d'utilisateur existe déjà
       const { data: existingUser } = await supabase
         .from('profiles')
         .select('username')
@@ -61,7 +60,6 @@ export default function Register() {
         return;
       }
 
-      // Créer le compte utilisateur
       const { user, error: signUpError } = await signUp(email, password);
       
       if (signUpError) {
@@ -72,7 +70,6 @@ export default function Register() {
         throw new Error('Création du compte impossible');
       }
 
-      // Créer le profil utilisateur
       const { error: profileError } = await supabase
         .from('profiles')
         .insert([
@@ -86,12 +83,10 @@ export default function Register() {
 
       if (profileError) {
         console.error('Erreur lors de la création du profil:', profileError);
-        // Si la création du profil échoue, on essaie de supprimer le compte utilisateur
         await supabase.auth.admin.deleteUser(user.id);
         throw new Error('Impossible de créer le profil');
       }
 
-      // Rediriger vers la page de profil pour compléter les informations
       navigate('/profile');
     } catch (error) {
       console.error('Erreur lors de l\'inscription:', error);

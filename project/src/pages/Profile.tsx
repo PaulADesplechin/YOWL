@@ -224,7 +224,6 @@ export default function Profile() {
         </div>
 
         <div className="flex justify-end">
-          <Link to='/'>
           <button
             type="submit"
             disabled={saving}
@@ -232,7 +231,6 @@ export default function Profile() {
           >
             {saving ? 'Enregistrement...' : 'Enregistrer'}
           </button>
-          </Link>
         </div>
       </form>
     </div>
