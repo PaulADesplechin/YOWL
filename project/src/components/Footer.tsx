@@ -12,7 +12,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-4 text-center text-xs text-gray-400 dark:text-gray-500">
-          &copy; {new Date().getFullYear()} MonSite. Tous droits réservés.
+          &copy; {new Date().getFullYear()} MayFly. Tous droits réservés.
         </div>
       </div>
     </footer>
