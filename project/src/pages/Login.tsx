@@ -44,15 +44,11 @@ export default function Login() {
         <button
           onClick={toggleDarkMode}
           className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
-          title="Toggle Dark Mode"
-        >
-          {darkMode ? <Sun size={24} className="text-purple-400" /> : <Moon size={24} className="text-purple-400" />}
-        </button>
+          title="Toggle Dark Mode" >
+          {darkMode ? <Sun size={24} className="text-purple-400" /> : <Moon size={24} className="text-purple-400" />}</button>
       </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
-          Connexion
-        </h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100"> Connexion </h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -65,52 +61,41 @@ export default function Login() {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                Email
-              </label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200"> Email </label>
               <input
                 id="email"
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:focus:border-purple-400 dark:focus:ring-purple-400"
-              />
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:focus:border-purple-400 dark:focus:ring-purple-400" />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                Mot de passe
-              </label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200"> Mot de passe </label>
               <input
                 id="password"
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:focus:border-purple-400 dark:focus:ring-purple-400"
-              />
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:focus:border-purple-400 dark:focus:ring-purple-400" />
             </div>
 
             <div>
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-400 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 dark:focus:ring-offset-gray-800"
-              >
-                {loading ? 'Connexion...' : 'Se connecter'}
-              </button>
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-400 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 dark:focus:ring-offset-gray-800" >
+                {loading ? 'Connexion...' : 'Se connecter'} </button>
             </div>
           </form>
 
           <div className="mt-6">
             <div className="relative">
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                  Pas encore de compte ?{' '}
-                  <Link to="/register" className="font-medium text-purple-400 hover:text-purple-600">
-                    S'inscrire
-                  </Link>
+                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400"> Pas encore de compte ?{' '}
+                  <Link to="/register" className="font-medium text-purple-400 hover:text-purple-600"> S'inscrire </Link>
                 </span>
               </div>
             </div>

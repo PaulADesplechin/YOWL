@@ -164,10 +164,7 @@ export default function Profile() {
             <button
               type="button"
               onClick={() => setError('')}
-              className={`${darkMode ? 'text-red-200 hover:text-red-100' : 'text-red-700 hover:text-red-900'}`}
-            >
-              ×
-            </button>
+              className={`${darkMode ? 'text-red-200 hover:text-red-100' : 'text-red-700 hover:text-red-900'}`} > × </button>
           </div>
         )}
 
@@ -177,9 +174,8 @@ export default function Profile() {
               <img
                 src={profile.avatar_url}
                 alt="Avatar"
-                className="w-24 h-24 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
-              />
-            ) : (
+                className="w-24 h-24 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700" />
+              ) : (
               <div className={`w-24 h-24 rounded-full ${
                 darkMode ? 'bg-gray-700' : 'bg-gray-200'
               } flex items-center justify-center`}>
@@ -198,24 +194,19 @@ export default function Profile() {
           </div>
 
           <div className="flex-1">
-            <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-              Nom d'utilisateur
-            </label>
+            <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}> Nom d'utilisateur </label>
             <input
               type="text"
               value={profile.username}
               onChange={(e) => setProfile({ ...profile, username: e.target.value })}
               className={`mt-1 block w-full rounded-md shadow-sm focus:border-purple-500 focus:ring-purple-500 ${
                 darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900'
-              }`}
-            />
+              }`} />
           </div>
         </div>
 
         <div>
-          <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-            Nom complet
-          </label>
+          <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}> Nom complet </label>
           <input
             type="text"
             value={profile.full_name}
@@ -224,14 +215,11 @@ export default function Profile() {
               darkMode
                 ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                 : 'bg-white border-gray-300 text-gray-900'
-            }`}
-          />
+            }`} />
         </div>
 
         <div>
-          <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-            Bio
-          </label>
+          <label className={`block text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}> Bio </label>
           <textarea
             value={profile.bio}
             onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
@@ -240,16 +228,14 @@ export default function Profile() {
               darkMode
                 ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                 : 'bg-white border-gray-300 text-gray-900'
-            }`}
-          />
+            }`} />
         </div>
 
         <div className="flex justify-end">
           <button
             type="submit"
             disabled={saving}
-            className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50"
-          >
+            className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50" >
             {saving ? 'Enregistrement...' : 'Enregistrer'}
           </button>
         </div>

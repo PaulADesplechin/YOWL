@@ -38,16 +38,12 @@ export default function Layout() {
               <button
                 onClick={toggleDarkMode}
                 className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
-                title="Toggle Dark Mode"
-              >
-                {darkMode ? <Sun size={24} className="text-purple-400" /> : <Moon size={24} className="text-purple-400" />}
-              </button>
+                title="Toggle Dark Mode">
+                {darkMode ? <Sun size={24} className="text-purple-400" /> : <Moon size={24} className="text-purple-400" />} </button>
               <button
                 onClick={handleSignOut}
-                className="px-4 py-2 bg-purple-400 text-white rounded-lg hover:bg-red-600"
-              >
-                Déconnexion
-              </button>
+                className="px-4 py-2 bg-purple-400 text-white rounded-lg hover:bg-red-600">
+                Déconnexion </button>
             </div>
 
             <div className="sm:hidden">
@@ -63,22 +59,16 @@ export default function Layout() {
             <Link
               to="/profile"
               className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => setMenuOpen(false)}
-            >
-              <User size={20} className="inline mr-2" /> Profil
-            </Link>
+              onClick={() => setMenuOpen(false)} >
+              <User size={20} className="inline mr-2" /> Profil </Link>
             <button
               onClick={toggleDarkMode}
-              className="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              {darkMode ? <Sun size={20} className="inline mr-2 text-purple-400" /> : <Moon size={20} className="inline mr-2 text-purple-400" />} Mode sombre
-            </button>
+              className="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              {darkMode ? <Sun size={20} className="inline mr-2 text-purple-400" /> : <Moon size={20} className="inline mr-2 text-purple-400" />} Mode sombre </button>
             <button
               onClick={handleSignOut}
-              className="w-full text-left px-4 py-2 text-white bg-purple-400 hover:bg-red-600"
-            >
-              Déconnexion
-            </button>
+              className="w-full text-left px-4 py-2 text-white bg-purple-400 hover:bg-red-600" >
+              Déconnexion </button>
           </div>
         )}
       </nav>

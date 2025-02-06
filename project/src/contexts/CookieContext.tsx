@@ -104,8 +104,7 @@ function CookieBanner() {
           <div className="flex-1 min-w-0">
             <p className="text-base text-gray-700 mb-4 md:mb-0">
               Nous utilisons des cookies pour améliorer votre expérience.
-              Vous pouvez personnaliser vos préférences ou accepter l'utilisation par défaut.
-            </p>
+              Vous pouvez personnaliser vos préférences ou accepter l'utilisation par défaut.</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0 md:ml-6">
@@ -151,15 +150,13 @@ function CookiePreferences({ onClose }: { onClose: () => void }) {
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Cookies nécessaires</h3>
                 <p className="text-sm text-gray-500">
-                  Ces cookies sont indispensables au fonctionnement du site.
-                </p>
+                  Ces cookies sont indispensables au fonctionnement du site. </p>
               </div>
               <input
                 type="checkbox"
                 checked={localConsent.necessary}
                 disabled
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-              />
+                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" />
             </div>
           </div>
           <div>
@@ -167,15 +164,13 @@ function CookiePreferences({ onClose }: { onClose: () => void }) {
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Cookies analytiques</h3>
                 <p className="text-sm text-gray-500">
-                  Nous aident à comprendre comment vous utilisez le site.
-                </p>
+                  Nous aident à comprendre comment vous utilisez le site. </p>
               </div>
               <input
                 type="checkbox"
                 checked={localConsent.analytics}
                 onChange={(e) => setLocalConsent({ ...localConsent, analytics: e.target.checked })}
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-              />
+                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" />
             </div>
           </div>
           <div>
@@ -183,8 +178,7 @@ function CookiePreferences({ onClose }: { onClose: () => void }) {
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Cookies marketing</h3>
                 <p className="text-sm text-gray-500">
-                  Utilisés pour vous montrer des publicités pertinentes.
-                </p>
+                  Utilisés pour vous montrer des publicités pertinentes. </p>
               </div>
               <input
                 type="checkbox"
@@ -197,8 +191,8 @@ function CookiePreferences({ onClose }: { onClose: () => void }) {
         <div className="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-          >Annuler</button>
+            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+              Annuler</button>
           <button onClick={handleSave} className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
             Enregistrer </button>
         </div>

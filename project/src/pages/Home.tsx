@@ -34,8 +34,7 @@ function renderContentWithLinks(content: string) {
           href={part}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-purple-500 hover:text-purple-600 hover:underline"
-        >
+          className="text-purple-500 hover:text-purple-600 hover:underline" >
           {part}
         </a>
       );
@@ -299,8 +298,7 @@ return (
           placeholder="Quoi de neuf ?"
           className={`w-full p-8 resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent min-h-[200px] text-2xl border-0 outline-none
             ${darkMode ? 'bg-gray-700 text-white placeholder-gray-400' : 'bg-white text-gray-900'}`}
-          rows={5}
-        />
+          rows={5} />
         <div className={`absolute bottom-6 right-6 ${darkMode ? 'text-gray-400' : 'text-gray-500'} text-base`}>
           {280 - content.length} caractères restants
         </div>
@@ -309,8 +307,7 @@ return (
         <button
           type="submit"
           className="px-10 py-5 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xl font-medium shadow-sm"
-          disabled={!content.trim() || publishing || !hasProfile}
-        >
+          disabled={!content.trim() || publishing || !hasProfile} >
           {publishing ? 'Publication...' : 'Publier'}
         </button>
       </div>
@@ -325,16 +322,14 @@ return (
           return (
             <article
               key={post.id}
-              className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-10 hover:shadow-xl transition-shadow`}
-            >
+              className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-10 hover:shadow-xl transition-shadow`} >
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-6">
                   {post.profiles.avatar_url ? (
                     <img
                       src={post.profiles.avatar_url}
                       alt={post.profiles.username}
-                      className="w-20 h-20 rounded-full object-cover border-2 border-gray-100 dark:border-gray-700"
-                    />
+                      className="w-20 h-20 rounded-full object-cover border-2 border-gray-100 dark:border-gray-700" />
                   ) : (
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
                       {post.profiles.username.charAt(0).toUpperCase()}
@@ -356,16 +351,13 @@ return (
                         <button
                           onClick={() => startEditing(post)}
                           className={`${darkMode ? 'text-gray-400 hover:text-purple-400' : 'text-gray-400 hover:text-purple-500'} transition-colors`}
-                          title="Modifier le post"
-                        >
-                          <Pencil size={24} />
-                        </button>
+                          title="Modifier le post" >
+                          <Pencil size={24} /> </button>
                         <button
                           onClick={() => handleDeletePost(post.id)}
                           disabled={deleting === post.id}
                           className={`${darkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-400 hover:text-red-500'} transition-colors disabled:opacity-50`}
-                          title="Supprimer le post"
-                        >
+                          title="Supprimer le post" >
                           <Trash2 size={24} />
                         </button>
                       </>
@@ -380,24 +372,19 @@ return (
                     onChange={(e) => setEditContent(e.target.value)}
                     className={`w-full p-4 border rounded-xl resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent min-h-[120px] text-xl
                       ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white text-gray-900 border-gray-200'}`}
-                    rows={4}
-                  />
+                    rows={4} />
                   <div className="flex justify-end space-x-4">
                     <button
                       onClick={cancelEditing}
-                      className={`px-6 py-2 ${darkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-600 hover:text-gray-800'} transition-colors flex items-center space-x-2`}
-                    >
+                      className={`px-6 py-2 ${darkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-600 hover:text-gray-800'} transition-colors flex items-center space-x-2`} >
                       <X size={20} />
-                      <span>Annuler</span>
-                    </button>
+                      <span>Annuler</span> </button>
                     <button
                       onClick={() => handleUpdatePost(post.id)}
                       disabled={!editContent.trim()}
-                      className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 flex items-center space-x-2"
-                    >
+                      className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 flex items-center space-x-2" >
                       <Check size={20} />
-                      <span>Enregistrer</span>
-                    </button>
+                      <span>Enregistrer</span> </button>
                   </div>
                 </div>
               ) : (
@@ -410,8 +397,7 @@ return (
                   onClick={() => handleLike(post.id)}
                   className={`flex items-center space-x-3 transition-colors ${
                     isLiked ? 'text-red-500' : `${darkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-500 hover:text-red-500'}`
-                  }`}
-                >
+                  }`} >
                   <Heart size={28} fill={isLiked ? 'currentColor' : 'none'} />
                   <span className="text-xl">
                     {post.likes_count} {post.likes_count > 1 ? 'J\'aime' : 'J\'aime'}

@@ -82,24 +82,18 @@ export default function Register() {
               <button
                 onClick={toggleDarkMode}
                 className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
-                title="Toggle Dark Mode"
-              >
-                {darkMode ? <Sun size={24} className="text-purple-400" /> : <Moon size={24} className="text-purple-400" />}
-              </button>
+                title="Toggle Dark Mode" >
+                {darkMode ? <Sun size={24} className="text-purple-400" /> : <Moon size={24} className="text-purple-400" />}</button>
             </div>
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
-                Se connecter
-              </h2>
+              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100"> Se connecter </h2>
             </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className={`py-8 px-4 shadow sm:rounded-lg sm:px-10 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && <div className="bg-red-500 text-white p-3 rounded">{error}</div>}
             <div>
-              <label htmlFor="username" className="block text-sm font-medium">
-                Nom d'utilisateur
-              </label>
+              <label htmlFor="username" className="block text-sm font-medium"> Nom d'utilisateur </label>
               <input id="username" type="text" required value={username} onChange={(e) => setUsername(e.target.value)} className={`mt-1 block w-full rounded-md shadow-sm ${darkMode ? 'bg-gray-700 text-white' : 'border-gray-300'}`} />
             </div>
             <div>
@@ -111,8 +105,7 @@ export default function Register() {
               <div className="relative">
                 <input id="password" type={passwordVisible ? 'text' : 'password'} required value={password} onChange={(e) => setPassword(e.target.value)} className={`mt-1 block w-full rounded-md shadow-sm ${darkMode ? 'bg-gray-700 text-white' : 'border-gray-300'}`} />
                 <button type="button" onClick={() => setPasswordVisible(!passwordVisible)} className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  {passwordVisible ? 'Masquer' : 'Voir'}
-                </button>
+                  {passwordVisible ? 'Masquer' : 'Voir'} </button>
               </div>
             </div>
             <div>
@@ -121,15 +114,11 @@ export default function Register() {
             </div>
             <div>
               <button type="submit" disabled={loading} className="w-full py-2 px-4 rounded-md shadow-sm text-white bg-purple-500 hover:bg-purple-600">
-                {loading ? 'Inscription...' : 'S\'inscrire'}
-              </button>
+                {loading ? 'Inscription...' : 'S\'inscrire'} </button>
             </div>
             <div className='relative flex justify-center text-sm'>
-              <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                Déjà un compte ?{' '}
-                <Link to="/login" className="font-medium text-purple-400 hover:text-purple-600">
-                  Se connecter
-                </Link>
+              <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400"> Déjà un compte ?{' '}
+                <Link to="/login" className="font-medium text-purple-400 hover:text-purple-600"> Se connecter </Link>
               </span>
             </div>
           </form>
