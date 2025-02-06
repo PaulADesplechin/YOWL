@@ -24,14 +24,12 @@ export default function Layout() {
       <nav className="bg-white border-b-2 border-purple-300 dark:bg-gray-800 dark:border-purple-400">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex justify-between items-center h-20">
-            {/* Logo Section */}
             <div className="flex items-center space-x-4">
               <Link to="/" className="flex items-center">
                 <img src={logo} alt="logo" className="w-16 h-16 object-contain" />
               </Link>
             </div>
 
-            {/* Desktop Menu */}
             <div className="hidden sm:flex items-center space-x-8">
               <Link to="/profile" className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                 <User size={20} />
@@ -52,7 +50,6 @@ export default function Layout() {
               </button>
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="sm:hidden">
               <button onClick={toggleMenu} className="p-2 text-gray-700 dark:text-gray-200">
                 {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -61,7 +58,6 @@ export default function Layout() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {menuOpen && (
           <div className="sm:hidden bg-white dark:bg-gray-800 border-t border-purple-300 dark:border-purple-400">
             <Link

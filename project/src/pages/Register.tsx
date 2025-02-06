@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { useDarkMode } from '../components/DarkModeContext';
 import { Moon, Sun } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 export default function Register() {
@@ -75,15 +76,21 @@ export default function Register() {
   }
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50'} flex flex-col justify-center py-12 sm:px-6 lg:px-8`}>
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold">
-          Créer un compte
-        </h2>
-      </div>
-      <button onClick={toggleDarkMode} className="absolute top-4 right-4 px-4 py-2 rounded bg-purple-500 text-white">
-        {darkMode ? <Sun /> : <Moon />}
-      </button>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50'} flex flex-col justify-center  sm:px-6 lg:px-8`}>
+      <div className="flex justify-end pt-6">
+              <button
+                onClick={toggleDarkMode}
+                className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+                title="Toggle Dark Mode"
+              >
+                {darkMode ? <Sun size={24} className="text-purple-400" /> : <Moon size={24} className="text-purple-400" />}
+              </button>
+            </div>
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
+                Se connecter
+              </h2>
+            </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className={`py-8 px-4 shadow sm:rounded-lg sm:px-10 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -116,18 +123,18 @@ export default function Register() {
                 {loading ? 'Inscription...' : 'S\'inscrire'}
               </button>
             </div>
+            <div className='relative flex justify-center text-sm'>
+              <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                Déjà un compte ?{' '}
+                <Link to="/login" className="font-medium text-purple-400 hover:text-purple-600">
+                  Se connecter
+                </Link>
+              </span>
+            </div>
           </form>
-          <div className="mt-4 text-center">
-            <p className="text-sm">
-              Vous avez déjà un compte ?{' '}
-              <Link to="/login" className="text-purple-600 hover:underline">
-                Connectez-vous !
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
-      <Footer />
+      <Footer/>
     </div>
   );
 }

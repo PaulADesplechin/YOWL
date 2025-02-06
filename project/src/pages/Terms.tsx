@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
+import logo from "../../assets/logo.png";
 
 export default function Terms() {
   return (
     <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      {/* Site Name */}
+      <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center space-x-4 justify-self-center">
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="logo" className="w-52 h-52 object-contain" />
+          </Link>
+        </div>
+      </div>
+
       <h1 className="text-purple-400 text-9xl font-extrabold text-center mb-8 leading-tight sm:text-6xl">MayFly</h1>
 
       <h1 className="text-4xl font-bold mb-8 text-center sm:text-3xl">Conditions d'Utilisation</h1>

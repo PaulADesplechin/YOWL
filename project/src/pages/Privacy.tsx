@@ -1,19 +1,23 @@
 import { Link } from 'react-router-dom';
+import logo from "../../assets/logo.png";
 
 export default function Privacy() {
   return (
     <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      {/* Site Name */}
+      <div className="flex items-center space-x-4 justify-self-center">
+              <Link to="/" className="flex items-center">
+                <img src={logo} alt="logo" className="w-52 h-52 object-contain" />
+              </Link>
+            </div>
       <h1 className="text-purple-400 text-9xl font-extrabold text-center mb-8 leading-tight sm:text-6xl">MayFly</h1>
 
       <h1 className="text-4xl font-bold mb-8 text-center sm:text-3xl">Politique de Confidentialité</h1>
 
-      {/* Dernière mise à jour et introduction */}
       <p className="text-gray-700 text-lg sm:text-base mb-8">
         Dernière mise à jour : 06/02/2025
       </p>
       <p className="text-gray-700 leading-relaxed text-lg sm:text-base mb-8">
-        Chez Mayfly, nous nous engageons à protéger la confidentialité de vos données personnelles et à respecter vos droits. 
+        Chez Mayfly, nous nous engageons à protéger la confidentialité de vos données personnelles et à respecter vos droits.
         Cette politique de confidentialité décrit les types de données que nous collectons, comment elles sont utilisées et stockées, ainsi que vos droits en matière de confidentialité.
       </p>
 
