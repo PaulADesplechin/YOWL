@@ -88,7 +88,7 @@ export default function Terms() {
           <ul className="list-disc ml-6 mt-4 space-y-2 text-gray-700 text-lg sm:text-base">
             <li>Email : support@mayfly.com</li>
             <li>Adresse postale : 24 Rue Pasteur, 94270 Le Kremlin-Bicêtre, France</li>
-            <li>Délégué à la protection des données (DPD) : dpo@mayfly.com</li>
+            <li>Délégué à la protection des données (DPD) : privaty@mayfly.com</li>
           </ul>
         </section>
       </div>
