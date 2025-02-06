@@ -19,7 +19,7 @@ export default function Register() {
   const { signUp } = useAuth();
   const { darkMode, toggleDarkMode } = useDarkMode();
 
-  function isAtLeast18(birthdate) {
+  function isAtLeast18(birthdate: string | Date): boolean {
     const today = new Date();
     const birthdateDate = new Date(birthdate);
     const age = today.getFullYear() - birthdateDate.getFullYear();
@@ -40,6 +40,7 @@ export default function Register() {
       setError('Vous devez avoir au moins 18 ans pour vous inscrire.');
       return;
     }
+
     if (!username.trim()) {
       setError('Le nom d\'utilisateur est requis.');
       return;
