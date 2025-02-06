@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { useDarkMode } from '../components/DarkModeContext';
 import { Moon, Sun } from 'lucide-react';
+import Footer from '../components/Footer';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -118,6 +119,7 @@ export default function Register() {
           </form>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
