@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { useDarkMode } from '../components/DarkModeContext';
@@ -82,7 +82,7 @@ export default function Register() {
         </h2>
       </div>
       <button onClick={toggleDarkMode} className="absolute top-4 right-4 px-4 py-2 rounded bg-purple-500 text-white">
-        {darkMode ? <Sun/> : <Moon/>}
+        {darkMode ? <Sun /> : <Moon />}
       </button>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className={`py-8 px-4 shadow sm:rounded-lg sm:px-10 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
@@ -117,9 +117,17 @@ export default function Register() {
               </button>
             </div>
           </form>
+          <div className="mt-4 text-center">
+            <p className="text-sm">
+              Vous avez déjà un compte ?{' '}
+              <Link to="/login" className="text-purple-600 hover:underline">
+                Connectez-vous !
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 import { useDarkMode } from '../components/DarkModeContext';
 import { Sun, Moon } from 'lucide-react';
 import Footer from '../components/Footer';
 
-export default function Login() {
+export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+  const [username, setUsername] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signUp } = useAuth();
   const { darkMode, toggleDarkMode } = useDarkMode();
 
   useEffect(() => {
@@ -24,15 +27,57 @@ export default function Login() {
     }
   }, [darkMode]);
 
-  async function handleSubmit(e: React.FormEvent) {
+  function isAtLeast18(birthdate) {
+    const today = new Date();
+    const birthdateDate = new Date(birthdate);
+    const age = today.getFullYear() - birthdateDate.getFullYear();
+    const monthDiff = today.getMonth() - birthdateDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdateDate.getDate())) {
+      return age - 1 >= 18;
+    }
+    return age >= 18;
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    if (!birthdate) {
+      setError('La date de naissance est requise.');
+      return;
+    }
+    if (!isAtLeast18(birthdate)) {
+      setError('Vous devez avoir au moins 18 ans pour vous inscrire.');
+      return;
+    }
+    if (!username.trim()) {
+      setError('Le nom d\'utilisateur est requis.');
+      return;
+    }
     try {
       setError('');
       setLoading(true);
-      await signIn(email, password);
-      navigate('/');
+      const { data: existingUser } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('username', username.trim())
+        .single();
+      if (existingUser) {
+        setError('Ce nom d\'utilisateur est déjà pris.');
+        setLoading(false);
+        return;
+      }
+      const { user, error: signUpError } = await signUp(email, password);
+      if (signUpError) throw signUpError;
+      if (!user) throw new Error('Création du compte impossible');
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert([{ id: user.id, username: username.trim(), created_at: new Date().toISOString() }]);
+      if (profileError) {
+        await supabase.auth.admin.deleteUser(user.id);
+        throw new Error('Impossible de créer le profil');
+      }
+      navigate('/profile');
     } catch (error) {
-      setError('Échec de la connexion. Vérifiez vos identifiants.');
+      setError('Échec de l\'inscription. Veuillez réessayer.');
     } finally {
       setLoading(false);
     }
@@ -51,7 +96,7 @@ export default function Login() {
       </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
-          Connexion
+          Inscription
         </h2>
       </div>
 
@@ -63,6 +108,20 @@ export default function Login() {
                 {error}
               </div>
             )}
+
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                Nom d'utilisateur
+              </label>
+              <input
+                id="username"
+                type="text"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:focus:border-purple-400 dark:focus:ring-purple-400"
+              />
+            </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
@@ -93,12 +152,27 @@ export default function Login() {
             </div>
 
             <div>
+              <label htmlFor="birthdate" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                Date de naissance
+              </label>
+              <input
+                id="birthdate"
+                type="date"
+                required
+                value={birthdate}
+                onChange={(e) => setBirthdate(e.target.value)}
+                max={new Date().toISOString().split('T')[0]}
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:focus:border-purple-400 dark:focus:ring-purple-400"
+              />
+            </div>
+
+            <div>
               <button
                 type="submit"
                 disabled={loading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-400 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 dark:focus:ring-offset-gray-800"
               >
-                {loading ? 'Connexion...' : 'Se connecter'}
+                {loading ? 'Inscription...' : "S'inscrire"}
               </button>
             </div>
           </form>
@@ -107,9 +181,9 @@ export default function Login() {
             <div className="relative">
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                  Pas encore de compte ?{' '}
-                  <Link to="/register" className="font-medium text-purple-400 hover:text-purple-600">
-                    S'inscrire
+                  Vous avez déjà un compte ?{' '}
+                  <Link to="/login" className="font-medium text-purple-400 hover:text-purple-600">
+                    Connectez-vous !
                   </Link>
                 </span>
               </div>
