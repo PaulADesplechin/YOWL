@@ -103,24 +103,25 @@ function CookieBanner() {
         <div className="md:flex md:items-center md:justify-between">
           <div className="flex-1 min-w-0">
             <p className="text-base text-gray-700 mb-4 md:mb-0">
-              Nous utilisons des cookies pour améliorer votre expérience.
-              Vous pouvez personnaliser vos préférences ou accepter l'utilisation par défaut.</p>
+              Chez <span className="font-semibold">MayFly</span>, nous utilisons des cookies pour optimiser votre expérience
+              sociale. Vous pouvez personnaliser vos préférences ou accepter tous les cookies pour profiter
+              pleinement de notre plateforme. </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0 md:ml-6">
             <button
               onClick={context.openPreferences}
-              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" >
+              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
               Personnaliser </button>
 
             <button
               onClick={context.rejectAll}
-              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" >
-              Refuser tout </button>
+              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                Refuser </button>
 
             <button
               onClick={context.acceptAll}
-              className="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" >
+              className="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
               Accepter tout </button>
           </div>
         </div>
@@ -138,63 +139,76 @@ function CookiePreferences({ onClose }: { onClose: () => void }) {
     onClose();
   };
 
+  const cookieTypes = [
+    {
+      id: 'necessary',
+      title: 'Cookies Techniques (Requis)',
+      description: `Ces cookies sont essentiels au fonctionnement de MayFly.
+      Ils permettent d'assurer une navigation fluide, une sécurité renforcée,
+      ainsi que des fonctionnalités de base telles que la gestion de session utilisateur et
+      la mémorisation des paramètres linguistiques. Sans ces cookies, certaines fonctionnalités
+      critiques du site ne fonctionneraient pas correctement.`,
+      required: true
+    },
+    {
+      id: 'analytics',
+      title: 'Cookies Analytiques',
+      description: `Ces cookies collectent des informations sur la manière dont les utilisateurs
+      interagissent sur MayFly, comme les pages les plus visitées, les posts les plus appréciés, le temps
+      passé sur chaque section ou les éventuelles erreurs rencontrées. Ces données sont agrégées et
+      anonymisées afin d'aider l'équipe à améliorer la navigation, l'ergonomie et les fonctionnalités de la plateforme.
+      Ils ne permettent pas d'identifier un utilisateur spécifique, mais offrent une meilleure compréhension de
+      la manière dont les utilisateurs utilisent Mayfly pour l'optimiser.`
+    },
+    {
+      id: 'marketing',
+      title: 'Cookies Publicitaires',
+      description: `Ces cookies sont utilisés pour personnaliser les contenus publicitaires et
+      vous proposer des offres adaptées à vos préférences. Ils permettent aussi de limiter la
+      fréquence à laquelle une publicité vous est affichée et de mesurer l'efficacité des
+      campagnes publicitaires. Ces cookies peuvent collecter des informations sur vos interactions
+      avec les annonces publicitaires. Leur activation aide MayFly à fournir une expérience plus
+      personnalisée et pertinente pour chaque utilisateur.`
+    }
+  ];
+
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="px-6 py-4 border-b">
-          <h2 className="text-xl font-semibold text-gray-900">Préférences des cookies</h2>
+          <h2 className="text-xl font-semibold text-gray-900">Vos préférences en matière de cookies</h2>
         </div>
-        <div className="px-6 py-4 space-y-6">
-          <div>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-medium text-gray-900">Cookies nécessaires</h3>
-                <p className="text-sm text-gray-500">
-                  Ces cookies sont indispensables au fonctionnement du site. </p>
+        <div className="px-6 py-4 space-y-8">
+          {cookieTypes.map((cookieType) => (
+            <div key={cookieType.id} className="border-b pb-6 last:border-b-0">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-gray-900">{cookieType.title}</h3>
+                  <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                    {cookieType.description} </p>
+                </div>
+                <div className="pt-1">
+                  <input
+                    type="checkbox"
+                    checked={localConsent[cookieType.id as keyof CookieConsent]}
+                    disabled={cookieType.required}
+                    onChange={(e) => setLocalConsent({
+                      ...localConsent,
+                      [cookieType.id]: e.target.checked
+                    })}
+                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" />
+                </div>
               </div>
-              <input
-                type="checkbox"
-                checked={localConsent.necessary}
-                disabled
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" />
             </div>
-          </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-medium text-gray-900">Cookies analytiques</h3>
-                <p className="text-sm text-gray-500">
-                  Nous aident à comprendre comment vous utilisez le site. </p>
-              </div>
-              <input
-                type="checkbox"
-                checked={localConsent.analytics}
-                onChange={(e) => setLocalConsent({ ...localConsent, analytics: e.target.checked })}
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" />
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-medium text-gray-900">Cookies marketing</h3>
-                <p className="text-sm text-gray-500">
-                  Utilisés pour vous montrer des publicités pertinentes. </p>
-              </div>
-              <input
-                type="checkbox"
-                checked={localConsent.marketing}
-                onChange={(e) => setLocalConsent({ ...localConsent, marketing: e.target.checked })}
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" />
-            </div>
-          </div>
+          ))}
         </div>
         <div className="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-              Annuler</button>
-          <button onClick={handleSave} className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-            Enregistrer </button>
+            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"> Annuler </button>
+          <button
+            onClick={handleSave}
+            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"> Enregistrer </button>
         </div>
       </div>
     </div>
