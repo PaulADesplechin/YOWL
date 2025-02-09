@@ -86,7 +86,7 @@ export default function Register() {
                 {darkMode ? <Sun size={24} className="text-purple-400" /> : <Moon size={24} className="text-purple-400" />}</button>
             </div>
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100"> Se connecter </h2>
+              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">S'inscrire</h2>
             </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className={`py-8 px-4 shadow sm:rounded-lg sm:px-10 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
